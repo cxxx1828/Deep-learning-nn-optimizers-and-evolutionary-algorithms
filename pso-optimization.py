@@ -10,7 +10,7 @@ Tested on:
 - Ackley function (multimodal, difficult)
 - Griewank function (many local minima)
 
-Author: Educational Implementation (2025)
+Author: Nina Dragićević
 """
 
 import numpy as np
