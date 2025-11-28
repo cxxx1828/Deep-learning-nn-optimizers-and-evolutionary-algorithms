@@ -1,4 +1,3 @@
-3s
 # Neuro-Inspired Optimization Toolbox
 
 Every optimizer you use to train neural networks — plus powerful evolutionary alternatives — implemented **from scratch** in pure Python.
