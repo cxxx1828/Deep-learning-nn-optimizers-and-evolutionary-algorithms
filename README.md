@@ -29,3 +29,6 @@ All algorithms include:
 - Professional matplotlib visualizations
 - Side-by-side comparison notebooks (Levy, Ackley, Rastrigin, Sphere, etc.)
 - Ready-to-use examples and benchmarks
+
+### Author
+Nina Dragićević
