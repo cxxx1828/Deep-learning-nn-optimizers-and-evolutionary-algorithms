@@ -23,6 +23,8 @@ Whether you're training a 100-billion-parameter LLM with **AdamW**, evolving neu
 - You’re writing a **thesis, paper, or blog post** and want beautiful, reproducible results
 - You want to impress recruiters with a **world-class, from-scratch ML portfolio project**
 
+
+
 All algorithms include:
 - Clean, heavily commented code
 - Convergence history tracking
