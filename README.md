@@ -1,6 +1,7 @@
 # Neuro-Inspired Optimization Toolbox
 ### Every optimizer that powers modern deep learning + cutting-edge evolutionary & swarm intelligence algorithms — 100% from scratch in pure Python
 
+
 This repository is the ultimate collection of **optimization algorithms that drive both classical deep learning and neuroevolution**, meticulously re-implemented from the ground up — no PyTorch, no TensorFlow, no black boxes.
 
 Whether you're training a 100-billion-parameter LLM with **AdamW**, evolving neural network architectures with **NEAT-style Genetic Algorithms**, or performing hyper-parameter search using **Golden Section**, this toolbox contains the **exact mathematical core** of every method — with crystal-clear code, detailed comments, and convergence visualizations.
