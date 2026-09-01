@@ -1,21 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Real-Valued Genetic Algorithm from Scratch in Python
-====================================================
 
-A clean, efficient, and fully documented real-coded genetic algorithm
-for continuous global optimization.
-
-Features:
-- Real-valued chromosomes (no binary encoding)
-- Roulette wheel selection (fitness-proportional)
-- Arithmetic (symmetric) crossover
-- Gaussian-like uniform mutation
-- Elitism
-- Tested on Sphere and Levy functions
-
-Perfect for learning evolutionary computation!
-"""
 
 import random
 import numpy as np
@@ -30,9 +14,6 @@ all_best_history = []
 generations_record = []
 
 
-# ================================
-# 1. Population Initialization
-# ================================
 
 def initialize_population(pop_size, dim, min_val, max_val):
     """Generate random real-valued population"""
@@ -44,9 +25,7 @@ def population_stats(fitness_values):
     return fitness_values.min(), fitness_values.mean()
 
 
-# ================================
-# 2. Selection: Roulette Wheel
-# ================================
+
 
 def roulette_wheel_selection(population, fitness_values):
     """Select parents using fitness-proportional (roulette) selection"""
@@ -60,12 +39,7 @@ def roulette_wheel_selection(population, fitness_values):
         parent1 = population[np.random.choice(len(population), p=probabilities)]
         parent2 = population[np.random.choice(len(population), p=probabilities)]
         parents.append((parent1, parent2))
-    return parents
 
-
-# ================================
-# 3. Crossover: Arithmetic (Symmetric)
-# ================================
 
 def arithmetic_crossover(parents):
     """Symmetric arithmetic crossover: y1 = r*a + (1-r)*b"""
@@ -78,9 +52,7 @@ def arithmetic_crossover(parents):
     return np.array(offspring)
 
 
-# ================================
-# 4. Mutation: Uniform Random Perturbation
-# ================================
+
 
 def mutate(offspring, mutation_rate=0.2, mutation_strength=1.0, bounds=None):
     """Add random perturbation to genes with probability"""
@@ -95,9 +67,6 @@ def mutate(offspring, mutation_rate=0.2, mutation_strength=1.0, bounds=None):
     return mutated
 
 
-# ================================
-# 5. Elitism
-# ================================
 
 def apply_elitism(best_old_individuals, new_population, elitism_rate):
     """Keep top individuals from previous generation"""
@@ -107,9 +76,6 @@ def apply_elitism(best_old_individuals, new_population, elitism_rate):
     return np.vstack([elite, survivors])
 
 
-# ================================
-# 6. Objective Functions
-# ================================
 
 def sphere_function(x):
     """Sphere function: f(x) = sum(x_i^2), minimum at (0,0,...)"""
@@ -125,9 +91,6 @@ def levy_function(x):
     return term1 + np.sum(term2) + term3
 
 
-# ================================
-# 7. Main Genetic Algorithm
-# ================================
 
 def real_genetic_algorithm(
     cost_function,
@@ -211,9 +174,6 @@ def real_genetic_algorithm(
     return best_individual, best_fitness
 
 
-# ================================
-# 8. Plotting Results
-# ================================
 
 def plot_convergence():
     colors = ['blue', 'red', 'green', 'purple', 'orange']
@@ -242,9 +202,6 @@ def plot_convergence():
     plt.show()
 
 
-# ================================
-# 9. Run Experiments
-# ================================
 
 if __name__ == "__main__":
     pop_sizes = [50, 100, 150]
