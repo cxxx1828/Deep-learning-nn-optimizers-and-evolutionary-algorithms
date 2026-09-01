@@ -1,19 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Optimization Toolbox - Classical & Evolutionary Methods
-=======================================================
 
-A comprehensive collection of 1D and multi-dimensional optimization algorithms
-implemented from scratch in pure Python (NumPy).
-
-Includes:
-- 1D Methods: Fibonacci, Golden Section, Newton-Raphson, Secant, Parabolic
-- Evolutionary: Binary & Real-coded Genetic Algorithm
-- Swarm Intelligence: Particle Swarm Optimization (PSO)
-- Gradient-based: Steepest Descent, Momentum, Nesterov, AdaGrad, RMSProp, Adam
-
-Author: Nina Dragićević
-"""
 
 import numpy as np
 import random
@@ -21,12 +7,8 @@ import math
 from scipy import linalg
 
 
-# ================================
-# 1. 1D OPTIMIZATION METHODS
-# ================================
 
 def fibonacci_sequence(n):
-    """Generate nth Fibonacci number (F1 = F2 = 1)"""
     if n <= 2:
         return 1
     a, b = 1, 1
@@ -36,7 +18,6 @@ def fibonacci_sequence(n):
 
 
 def fibonacci_method(func, a, b, tol=1e-6):
-    """Fibonacci search for unimodal function"""
     n = 1
     while (b - a) / tol > fibonacci_sequence(n):
         n += 1
@@ -60,7 +41,6 @@ def fibonacci_method(func, a, b, tol=1e-6):
 
 
 def golden_section_search(func, a, b, tol=1e-6):
-    """Golden section search (0.618 ratio)"""
     phi = (1 + math.sqrt(5)) / 2
     c = (phi - 1)  # ~0.618
 
@@ -88,7 +68,6 @@ def golden_section_search(func, a, b, tol=1e-6):
 
 
 def newton_raphson(func, dfunc, ddfunc, x0, tol=1e-8, max_iter=100):
-    """Newton-Raphson method (requires 1st and 2nd derivatives)"""
     x = x0
     for i in range(max_iter):
         fx = dfunc(x)
@@ -104,7 +83,6 @@ def newton_raphson(func, dfunc, ddfunc, x0, tol=1e-8, max_iter=100):
 
 
 def secant_method(func, dfunc, x0, x1, tol=1e-8, max_iter=100):
-    """Secant method (approximates derivative)"""
     x_prev, x_curr = x0, x1
     for i in range(max_iter):
         f_prev = dfunc(x_prev)
@@ -118,9 +96,6 @@ def secant_method(func, dfunc, x0, x1, tol=1e-8, max_iter=100):
     return x_curr, func(x_curr), max_iter
 
 
-# ================================
-# 2. GENETIC ALGORITHMS
-# ================================
 
 # Binary GA helpers
 def binary_encode(value, min_val, max_val, precision):
@@ -155,9 +130,6 @@ def gaussian_mutation(population, rate=0.2, scale=1.0, bounds=None):
     return mutated
 
 
-# ================================
-# 3. PARTICLE SWARM OPTIMIZATION
-# ================================
 
 class Particle:
     def __init__(self, position, velocity_scale=1.0):
@@ -198,10 +170,6 @@ def pso(func, dim, bounds, n_particles=40, max_iter=300, w=0.7, c1=1.4, c2=1.4):
 
     return global_best, global_fitness
 
-
-# ================================
-# 4. GRADIENT-BASED METHODS
-# ================================
 
 def gradient_descent(gradf, x0, lr=0.01, tol=1e-6, max_iter=1000):
     x = np.array(x0, dtype=float)
@@ -252,9 +220,7 @@ def adam_optimizer(gradf, x0, lr=0.01, beta1=0.9, beta2=0.999, eps=1e-8, tol=1e-
     return path
 
 
-# ================================
-# Example Usage
-# ================================
+
 
 if __name__ == "__main__":
     # Test function: f(x) = x^4 - 4x^2 + x
