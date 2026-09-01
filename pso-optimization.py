@@ -1,17 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Particle Swarm Optimization (PSO) from Scratch in Python
-=======================================================
 
-A clean, efficient, and fully commented implementation of the classic PSO algorithm
-with linear decreasing inertia weight and cognitive/social coefficients.
-
-Tested on:
-- Ackley function (multimodal, difficult)
-- Griewank function (many local minima)
-
-Author: Nina Dragićević
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,9 +7,6 @@ from mpl_toolkits.mplot3d import Axes3D
 import math
 
 
-# ================================
-# Configuration & Options
-# ================================
 
 class PSOOptions:
     def __init__(self):
@@ -37,9 +22,6 @@ class PSOOptions:
         self.bounds = None           # (min, max) bounds for position clamping
 
 
-# ================================
-# Particle Class
-# ================================
 
 class Particle:
     def __init__(self, position, options):
@@ -98,9 +80,6 @@ class Particle:
             self.position = np.clip(self.position, low, high)
 
 
-# ================================
-# Main PSO Class
-# ================================
 
 class ParticleSwarmOptimization:
     def __init__(self, cost_function, dim, options=None):
@@ -167,9 +146,7 @@ class ParticleSwarmOptimization:
         return self.global_best_position, self.global_best_fitness
 
 
-# ================================
-# Test Functions
-# ================================
+
 
 def ackley(x):
     """Ackley function - global minimum at f(0,0,...,0) = 0"""
@@ -198,9 +175,7 @@ def rastrigin(x):
     return A * len(x) + np.sum(x**2 - A * np.cos(2 * np.pi * x))
 
 
-# ================================
-# Visualization (Optional)
-# ================================
+
 
 def plot_surface(func, title, xlim=(-10, 10), ylim=(-10, 10)):
     x = np.linspace(xlim[0], xlim[1], 100)
@@ -219,9 +194,7 @@ def plot_surface(func, title, xlim=(-10, 10), ylim=(-10, 10)):
     plt.show()
 
 
-# ================================
-# Run Examples
-# ================================
+
 
 if __name__ == "__main__":
     # Customize options
