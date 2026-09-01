@@ -1,15 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Binary Genetic Algorithm - From Scratch in Python
-Optimization of Sphere and Levy functions using binary-encoded chromosomes
 
-Features:
-- Binary encoding/decoding with configurable precision
-- One-point and two-point crossover
-- Mutation by inversion and bit-flip
-- Roulette wheel selection + elitism
-- Visualization of convergence
-"""
 
 import random
 import numpy as np
@@ -18,33 +8,26 @@ from mpl_toolkits.mplot3d import Axes3D
 
 pi = 3.14159265359
 
-# Global lists to store results across runs
 all_avg_list = []
 all_best_list = []
 generations_list = []
 
 
-# ================================
-# 1. Encoding / Decoding Functions
-# ================================
 
 def bin_encode(chromosome, bin_step, min_val, precision):
-    """Encode a single real-valued gene into binary string"""
     ret = ""
     for gene in chromosome:
         val = int(round((gene - min_val) / bin_step))
-        ret += bin(val)[2:].zfill(precision)  # Pad with zeros
+        ret += bin(val)[2:].zfill(precision)  
     return ret
 
 
 def bin_encode_chromosomes(chromosomes, precision, max_val, min_val):
-    """Encode entire population (list of individuals) into binary"""
     bin_step = (max_val - min_val) / (2**precision - 1)
     return [bin_encode(ind, bin_step, min_val, precision) for ind in chromosomes]
 
 
 def bin_decode(chromosome, bin_step, min_val, precision):
-    """Decode a binary chromosome back to real values"""
     ret = []
     for i in range(0, len(chromosome), precision):
         bits = chromosome[i:i + precision]
@@ -55,28 +38,19 @@ def bin_decode(chromosome, bin_step, min_val, precision):
 
 
 def bin_decode_chromosomes(chromosomes, precision, max_val, min_val):
-    """Decode entire population"""
     bin_step = (max_val - min_val) / (2**precision - 1)
     return [bin_decode(ind, bin_step, min_val, precision) for ind in chromosomes]
 
 
-# ================================
-# 2. Population Initialization
-# ================================
 
 def generate_initial_population(length, max_val, min_val, pop_size):
-    """Generate random real-valued initial population"""
     return [[random.uniform(min_val, max_val) for _ in range(length)] for _ in range(pop_size)]
 
 
 def population_stats(costs):
-    """Return best and average fitness"""
     return costs[0], sum(costs) / len(costs)
 
 
-# ================================
-# 3. Selection Methods
-# ================================
 
 def rank_chromosomes(cost_func, chromosomes):
     """Rank individuals by fitness (lower = better)"""
@@ -87,12 +61,10 @@ def rank_chromosomes(cost_func, chromosomes):
 
 
 def natural_selection(chromosomes, n_keep):
-    """Keep only the top n individuals (elitism style)"""
     return chromosomes[:n_keep]
 
 
 def roulette_selection(parents):
-    """Roulette wheel selection - higher fitness = higher chance"""
     pairs = []
     for _ in range(0, len(parents), 2):
         weights = [(len(parents) - i) * random.random() for i in range(len(parents))]
@@ -104,12 +76,9 @@ def roulette_selection(parents):
     return pairs
 
 
-# ================================
-# 4. Crossover Operators
-# ================================
+
 
 def one_point_crossover(pairs):
-    """Single-point crossover"""
     children = []
     for parent1, parent2 in pairs:
         point = random.randint(1, len(parent1) - 1)
@@ -120,7 +89,6 @@ def one_point_crossover(pairs):
 
 
 def two_point_crossover(pairs):
-    """Two-point crossover"""
     children = []
     for parent1, parent2 in pairs:
         p1 = random.randint(0, len(parent1) - 1)
@@ -132,12 +100,8 @@ def two_point_crossover(pairs):
     return children
 
 
-# ================================
-# 5. Mutation Operators
-# ================================
 
 def inversion_mutation(chromosomes, mutation_rate):
-    """Mutation by inverting a segment (reversal)"""
     mutated = []
     for chrom in chromosomes:
         if random.random() < mutation_rate:
@@ -166,28 +130,20 @@ def bitflip_mutation(chromosomes, mutation_rate):
     return mutated
 
 
-# ================================
-# 6. Elitism
-# ================================
+
 
 def apply_elitism(best_old, new_population, elitism_rate, pop_size):
-    """Keep top individuals from previous generation"""
     n_elite = int(pop_size * elitism_rate)
     return best_old[:n_elite] + new_population[:pop_size - n_elite]
 
 
-# ================================
-# 7. Objective Functions
-# ================================
 
 def sphere_function(individual):
-    """Sphere function: f(x,y) = x² + y², minimum at (0,0)"""
     x, y = individual
     return x**2 + y**2
 
 
 def levy_function(individual):
-    """Levy function - complex multimodal function, minimum at (1,1)"""
     x, y = individual
     term1 = (np.sin(3 * np.pi * x))**2
     term2 = (x - 1)**2 * (1 + (np.sin(3 * np.pi * y))**2)
@@ -195,9 +151,6 @@ def levy_function(individual):
     return term1 + term2 + term3
 
 
-# ================================
-# 8. Main Genetic Algorithm Loop
-# ================================
 
 def genetic_algorithm(
     cost_func,
@@ -211,17 +164,14 @@ def genetic_algorithm(
 ):
     min_val, max_val = search_range
 
-    # Lists for plotting
     avg_history = []
     best_history = []
     stagnation_count = 0
     best_fitness = float('inf')
 
-    # Initialize population
     population = generate_initial_population(chromosome_length, max_val, min_val, population_size)
 
     for generation in range(max_generations):
-        # Evaluate and rank
         ranked_pop, costs = rank_chromosomes(cost_func, population)
         best_fit, avg_fit = population_stats(costs)
 
@@ -231,7 +181,6 @@ def genetic_algorithm(
         avg_history.append(avg_fit)
         best_history.append(best_fit)
 
-        # Check convergence
         if best_fit < 1e-4:
             print(f"\nSolution found! x,y = [{ranked_pop[0][0]:.6f}, {ranked_pop[0][1]:.6f}]")
             save_results(avg_history, best_history, generation)
@@ -248,17 +197,13 @@ def genetic_algorithm(
             save_results(avg_history, best_history, generation)
             return
 
-        # Encode to binary
         binary_pop = bin_encode_chromosomes(ranked_pop, precision, max_val, min_val)
         pairs = roulette_selection(binary_pop)
         offspring = two_point_crossover(pairs)
         offspring = inversion_mutation(offspring, mutation_rate)
-        # offspring = bitflip_mutation(offspring, mutation_rate)  # Alternative
 
-        # Decode back
         population = bin_decode_chromosomes(offspring, precision, max_val, min_val)
 
-        # Apply elitism
         population = apply_elitism(ranked_pop, population, elitism_rate, population_size)
 
     print(f"\nMax generations reached. Best: x,y = [{ranked_pop[0][0]:.6f}, {ranked_pop[0][1]:.6f}]")
@@ -270,10 +215,6 @@ def save_results(avg_hist, best_hist, gens):
     all_best_list.append(best_hist)
     generations_list.append(gens)
 
-
-# ================================
-# 9. Plotting Results
-# ================================
 
 def plot_convergence():
     colors = ['blue', 'red', 'green', 'purple', 'orange']
@@ -300,9 +241,6 @@ def plot_convergence():
         plt.show()
 
 
-# ================================
-# 10. Run Experiments
-# ================================
 
 if __name__ == "__main__":
     pop_sizes = [20, 50, 100]
@@ -324,7 +262,6 @@ if __name__ == "__main__":
             )
 
         plot_convergence()
-        # Reset for next population size
         all_avg_list.clear()
         all_best_list.clear()
         generations_list.clear()
